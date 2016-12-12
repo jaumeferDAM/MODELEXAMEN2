@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">MODELEXAMEN2</string>
+
+    <string name="ListaEjercicios2prompt">Elije Ejercicio</string>
+
+    <string-array name="ListaEjercicios">
+        <item>Ejercicio1</item>
+        <item>Ejercicio2</item>
+        <item>Ejercicio3</item>
+        <item>Ejercicio4</item>
+
+    </string-array>
+
+</resources>
