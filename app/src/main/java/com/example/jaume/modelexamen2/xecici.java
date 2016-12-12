@@ -14,7 +14,7 @@ import android.widget.Spinner;
 
 public class xecici extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 public void onCreate(Bundle savedInstanceState) {
-    onCreate(savedInstanceState);
+    super.onCreate(savedInstanceState);
     setContentView(R.layout.exercici);
 
     Spinner spinner = (Spinner) findViewById(R.id.spinner1);

@@ -20,51 +20,73 @@ import java.io.OutputStreamWriter;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     EditText etEdad;
-    EditText etNombre = (EditText) findViewById(R.id.editTextNombre);
-    EditText etSexe = (EditText) findViewById(R.id.editTextSexe);
-    EditText etAltura = (EditText) findViewById(R.id.editTextAltura);
-    EditText etPes = (EditText) findViewById(R.id.editTextPes);
-    @Override
+    EditText etNombre;
+    EditText etSexe;
+    EditText etAltura;
+    EditText etPes;
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
        etEdad = (EditText) findViewById(R.id.editTextEdad);
-
+        etAltura = (EditText) findViewById(R.id.editTextAltura);
+        etNombre  = (EditText) findViewById(R.id.editTextNombre);
+        etPes = (EditText) findViewById(R.id.editTextPes);
+        etSexe = (EditText) findViewById(R.id.editTextSexe);
         Button guardarButton = (Button) findViewById(R.id.btnGuardar);
         Button exerciciButton = (Button) findViewById(R.id.btnExercici);
         Button tasaButton = (Button) findViewById(R.id.btnTasa);
 
         guardarButton.setOnClickListener(this);
+        exerciciButton.setOnClickListener(this);
+        tasaButton.setOnClickListener(this);
+
+        settearTextos();
     }
+
+
 @Override
     public void onClick(View v) {
-    if(v.equals(R.id.btnGuardar)) {
+    switch(v.getId()){
 
-        try
-        {
-            OutputStreamWriter fout =
-                    new OutputStreamWriter(
-                            openFileOutput("prueba_int.txt", Context.MODE_PRIVATE));
+        case R.id.btnGuardar:
+            try {
+                OutputStreamWriter fout = new OutputStreamWriter(openFileOutput("prueba_int.txt", Context.MODE_PRIVATE));
 
-            fout.write(etNombre.getText().toString());
-            fout.close();
+                fout.write(etNombre.getText().toString());
+                fout.write(etEdad.getText().toString());
+                fout.write(etAltura.getText().toString());
+                fout.write(etPes.getText().toString());
+                fout.write(etSexe.getText().toString());
+                fout.close();
 
-            Log.i("Ficheros", "Fichero creado!");
-        }
-        catch (Exception ex)
-        {
-            Log.e("Ficheros", "Error al escribir fichero a memoria interna");
-        }
-    } else if (v.equals(R.id.btnExercici)) {
-        Intent i = new Intent(this,xecici.class);
-        i.putExtra("nom",leerFichero());
-}
+                Log.i("Ficheros", "Fichero creado!");
+            }
+            catch (Exception ex) {
+                Log.e("Ficheros", "Error al escribir fichero a memoria interna");
+            }
+            break;
+        case R.id.btnExercici:
+            Intent i = new Intent(this,xecici.class);
+            i.putExtra("nom",etNombre.getText().toString());
+            startActivity(i);
+            break;
+
+        case R.id.btnTasa:
+            Intent intent = new Intent(this,tasaActivity.class);
+            intent.putExtra("dades",etNombre.getText().toString());
+            startActivity(intent);
+            break;
+    }
 
 
 }
 
     public String leerFichero() {
         String texto = "";
+        String todo = "";
+
         {
             BufferedReader fin =
                     null;
@@ -72,18 +94,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 fin = new BufferedReader(
                         new InputStreamReader(
                                 openFileInput("prueba_int.txt")));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+
+                String linea = fin.readLine();
+
+                while (linea != null) {
+                    todo = todo + linea + "\n";
+                    linea = fin.readLine();
+                }
 
 
-            try {
-                texto = fin.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                fin.close();
+                    fin.close();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -93,10 +114,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
-        return texto;
+        return todo;
     }
+    public void settearTextos() {
+        etNombre.setText("");
 
-
+    }
 
     }
 
